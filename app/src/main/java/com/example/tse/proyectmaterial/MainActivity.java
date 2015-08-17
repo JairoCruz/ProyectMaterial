@@ -3,6 +3,8 @@ package com.example.tse.proyectmaterial;
 
 import android.content.Intent;
 import android.os.Bundle;
+import com.example.tse.proyectmaterial.NavigationDrawerFragment;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,6 +21,11 @@ public class MainActivity extends ActionBarActivity{
         // Para empezar a utilizar mi ToolBar personalizado
         toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
+
+
+        // Configuracion para poder utilizar el NavigationDrawer
+        /*NavigationDrawerFragment drawerFragment = (NavigationDrawerFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
+        drawerFragment.setUp((DrawerLayout)findViewById(R.id.drawer_layout), toolbar);*/
 
     }
 
@@ -42,7 +49,7 @@ public class MainActivity extends ActionBarActivity{
         }
         if(id == R.id.navigate){
             // con esto lanzo una actividad, cuando alguien hace click sobre mi toolbar icon
-            startActivity(new Intent(this,SubActivity.class));
+            startActivity(new Intent(this, SubActivity.class));
         }
 
         return super.onOptionsItemSelected(item);
