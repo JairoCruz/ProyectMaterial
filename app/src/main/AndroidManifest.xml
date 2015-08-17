@@ -16,6 +16,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".SubActivity"
+            android:label="@string/title_activity_sub" >
+            <!--con esto le digo a mi sub actividad que sera hija de mi actividad principal, para que funcione el boton en la-->
+            <!--sub actividad que me regrese a mi actividad principal-->
+            <meta-data android:name="android.support.PARENT_ACTIVITY" android:value=".MainActivity"/>
+        </activity>
     </application>
 
 </manifest>

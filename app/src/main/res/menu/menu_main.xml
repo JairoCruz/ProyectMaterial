@@ -1,6 +1,18 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.example.tse.proyectmaterial.MainActivity">
-    <item android:id="@+id/action_settings" android:title="@string/action_settings"
-        android:orderInCategory="100" android:showAsAction="never" />
+    <item android:id="@+id/action_settings"
+        android:title="@string/action_settings"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+    <!-- android:orderInCategory="200" con esto aparecera en el menu debajo del anterior item-->
+    <!-- app:showAsAction="always" aparecera no dentro del menu sino que visible en la tootlbar-->
+    <item android:title="@string/next"
+        android:id="@+id/navigate"
+        android:orderInCategory="200"
+        app:showAsAction="always"
+        android:icon="@mipmap/ic_action_next_item">
+
+    </item>
 </menu>

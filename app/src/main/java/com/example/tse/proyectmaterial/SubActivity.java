@@ -1,31 +1,32 @@
 package com.example.tse.proyectmaterial;
 
-
-import android.content.Intent;
-import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
+import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.support.v7.widget.Toolbar;
 
-public class MainActivity extends ActionBarActivity{
+public class SubActivity extends ActionBarActivity {
 
-    private Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_sub);
 
-        // Para empezar a utilizar mi ToolBar personalizado
-        toolbar = (Toolbar) findViewById(R.id.app_bar);
+        // Establecer mi ToolBar para mi segunda actividad
+        Toolbar toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
 
+        // Con esto habilito un boton que me regrese a mi actividad principal
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_sub, menu);
         return true;
     }
 
@@ -40,9 +41,9 @@ public class MainActivity extends ActionBarActivity{
         if (id == R.id.action_settings) {
             return true;
         }
-        if(id == R.id.navigate){
-            // con esto lanzo una actividad, cuando alguien hace click sobre mi toolbar icon
-            startActivity(new Intent(this,SubActivity.class));
+        // Esta es la accion para que mi boton me regrese a la actividad principal
+        if(id == android.R.id.home){
+            NavUtils.navigateUpFromSameTask(this);
         }
 
         return super.onOptionsItemSelected(item);
