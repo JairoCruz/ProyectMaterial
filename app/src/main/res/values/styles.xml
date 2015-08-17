@@ -11,4 +11,10 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <!--con esto personalizo el texto que aparecera en mi ToolBar-->
+    <style name="MyCustomToolBar" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:textColorPrimary">#f00</item>
+        <item name="android:textColorSecondary">#00f</item>
+    </style>
+
 </resources>
