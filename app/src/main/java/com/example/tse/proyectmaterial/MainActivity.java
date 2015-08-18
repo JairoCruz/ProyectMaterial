@@ -24,8 +24,8 @@ public class MainActivity extends ActionBarActivity{
 
 
         // Configuracion para poder utilizar el NavigationDrawer
-        /*NavigationDrawerFragment drawerFragment = (NavigationDrawerFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
-        drawerFragment.setUp((DrawerLayout)findViewById(R.id.drawer_layout), toolbar);*/
+        NavigationDrawerFragment drawerFragment = (NavigationDrawerFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
+        drawerFragment.setUp((DrawerLayout)findViewById(R.id.drawer_layout), toolbar);
 
     }
 
