@@ -21,7 +21,7 @@ public class MainActivity extends ActionBarActivity{
         // Para empezar a utilizar mi ToolBar personalizado
         toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
-
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // Configuracion para poder utilizar el NavigationDrawer
         NavigationDrawerFragment drawerFragment = (NavigationDrawerFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
