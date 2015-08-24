@@ -16,7 +16,8 @@ public class MainActivity extends ActionBarActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        //aca solo cambio el layout principal que mostrara, es cual es un drawer que no oculta el toolbar
+        setContentView(R.layout.activity_main_appbar);
 
         // Para empezar a utilizar mi ToolBar personalizado
         toolbar = (Toolbar) findViewById(R.id.app_bar);

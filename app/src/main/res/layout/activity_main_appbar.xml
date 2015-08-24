@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <!--Con esto incluyo mi layout app_bar, el cual esta personalizado-->
+    <include
+        android:id="@+id/app_bar"
+        layout="@layout/app_bar"
+        />
+
+
+
+
+    <!--Esta modificacion la hice para poder utilizar un navigationDrawer-->
+    <android.support.v4.widget.DrawerLayout
+
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/drawer_layout"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+        <FrameLayout
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"/>
+
+
+
+        Con este fragment agrego el fragment que cree para navigationDrawer
+        <fragment
+            android:id="@+id/fragment_navigation_drawer"
+            android:layout_width="280dp"
+            android:layout_height="match_parent"
+            app:layout="@layout/fragment_navigation_drawer"
+            android:layout_gravity="start"
+            android:name="com.example.tse.proyectmaterial.NavigationDrawerFragment"
+            tools:layout="@layout/fragment_navigation_drawer" />
+
+    </android.support.v4.widget.DrawerLayout>
+
+</LinearLayout>
