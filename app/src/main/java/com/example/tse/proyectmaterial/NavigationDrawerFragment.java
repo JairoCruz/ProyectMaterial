@@ -52,7 +52,7 @@ public class NavigationDrawerFragment extends Fragment {
     }
 
 
-    public void setUp(int fragmentId, DrawerLayout drawerLayout, Toolbar toolBar) {
+    public void setUp(int fragmentId, DrawerLayout drawerLayout, final Toolbar toolBar) {
         containerView = getActivity().findViewById(fragmentId);
         mdrawerLayout = drawerLayout;
         mdrawerToggle = new ActionBarDrawerToggle(getActivity(), drawerLayout,toolBar, R.string.drawer_open,R.string.drawer_close){
@@ -70,6 +70,17 @@ public class NavigationDrawerFragment extends Fragment {
             public void onDrawerClosed(View drawerView) {
                 super.onDrawerClosed(drawerView);
                 getActivity().invalidateOptionsMenu();
+            }
+
+            @Override
+            public void onDrawerSlide(View drawerView, float slideOffset) {
+                // Este metodo me sirve cuando mi toolbar es visible y el navigation drawer se muestra, al aparecer
+                // el drawer el toolbar se ira oscureciendo haciendo mas enfacies en el drawer, y luego cuando se
+                // cierre el drawer toolbar volvera a su color por defecto.
+                if (slideOffset < 0.6){
+                    toolBar.setAlpha(1- slideOffset);
+                }
+
             }
         };
 
