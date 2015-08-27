@@ -9,7 +9,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <RelativeLayout
-
+        android:fitsSystemWindows="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context="com.example.tse.proyectmaterial.MainActivity">
@@ -20,11 +20,7 @@
             layout="@layout/app_bar"
             />
 
-        <TextView
-            android:layout_below="@+id/app_bar"
-            android:text="@string/hello_world"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+
 
     </RelativeLayout>
 
