@@ -6,6 +6,7 @@
     android:layout_height="wrap_content"
     android:background="@color/primaryColor"
     app:theme="@style/MyCustomToolBar"
-    app:popupTheme="@style/ThemeOverlay.AppCompat.Dark"><!--Esto es para agregarle un colo a popup que aparece en la ToolBar-->
+    app:popupTheme="@style/ThemeOverlay.AppCompat.Dark"
+    android:paddingTop="@dimen/tool_bar_top_padding"><!--Esto es para agregarle un colo a popup que aparece en la ToolBar-->
 
 </android.support.v7.widget.Toolbar>
