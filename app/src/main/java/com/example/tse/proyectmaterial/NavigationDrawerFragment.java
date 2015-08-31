@@ -7,11 +7,18 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.example.tse.proyectmaterial.adapter.InformationAdapter;
+import com.example.tse.proyectmaterial.model.Information;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -31,10 +38,27 @@ public class NavigationDrawerFragment extends Fragment {
     private boolean mUserLearnedDrawer;
     private boolean mFromSavedInstanceState;
 
+    private InformationAdapter adapter;
+
     private View containerView;
 
     public NavigationDrawerFragment() {
         // Required empty public constructor
+    }
+
+    // este metodo lo utilizo para recuperar datos para el recycler view
+    public static List<Information> getData(){
+        List<Information> data = new ArrayList<>();
+        int[] icon = {R.mipmap.ic_add_shopping_cart_white,R.mipmap.ic_alarm_on_white,R.mipmap.ic_aspect_ratio_white,R.mipmap.ic_build_white};
+        String[] title = {"Shopping cart","Alarm","Ratio","Herramientas"};
+
+        for (int i = 0; i < title.length && i < icon.length; i++){
+            Information current = new Information();
+            current.iconId = icon[i];
+            current.title = title[i];
+            data.add(current);
+        }
+        return data;
     }
 
     @Override
@@ -55,6 +79,12 @@ public class NavigationDrawerFragment extends Fragment {
         // return inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
         View layout = inflater.inflate(R.layout.fragment_navigation_drawer,container,false);
         recyclerView = (RecyclerView) layout.findViewById(R.id.drawerList);
+        // para que se muestre mi adapter
+        adapter = new InformationAdapter(getActivity(), getData());
+        // le paso a mi recycler mi adapter
+        recyclerView.setAdapter(adapter);
+        // ahora defino el layout manager para mi recycler
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         return layout;
     }
 
