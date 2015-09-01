@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.tse.proyectmaterial.R;
 import com.example.tse.proyectmaterial.model.Information;
@@ -20,12 +21,13 @@ import java.util.List;
  */
 public class InformationAdapter extends RecyclerView.Adapter <InformationAdapter.MyViewHolder>{
 
-
+    private Context context;
     private LayoutInflater inflater;
     // Los datos para llenar mi recyclerView
     List<Information> data = Collections.emptyList();
 
     public InformationAdapter(Context context, List<Information> data) {
+        this.context = context;
        inflater =  LayoutInflater.from(context);
         this.data = data;
     }
@@ -52,7 +54,14 @@ public class InformationAdapter extends RecyclerView.Adapter <InformationAdapter
         return data.size();
     }
 
-    class MyViewHolder extends RecyclerView.ViewHolder{
+    public void delete(int position){
+        //para eliminar un dato de mi arreglo
+        data.remove(position);
+        // esto me le permite indicarle a mi adapter que hasido eliminado un item
+        notifyItemRemoved(position);
+    }
+
+    class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
 
         TextView title;
@@ -63,6 +72,14 @@ public class InformationAdapter extends RecyclerView.Adapter <InformationAdapter
 
             title = (TextView) itemView.findViewById(R.id.listText);
             icon = (ImageView) itemView.findViewById(R.id.listIcon);
+            //Establesco un onClickListener al Icon
+            icon.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            // Toast.makeText(context, "Item position" + getPosition(), Toast.LENGTH_SHORT).show();
+            delete(getPosition());
         }
     }
 }
