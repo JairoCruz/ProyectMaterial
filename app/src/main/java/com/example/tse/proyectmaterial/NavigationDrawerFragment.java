@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.tse.proyectmaterial.adapter.InformationAdapter;
 import com.example.tse.proyectmaterial.model.Information;
@@ -92,15 +93,16 @@ public class NavigationDrawerFragment extends Fragment implements InformationAda
         recyclerView.setAdapter(adapter);
         // ahora defino el layout manager para mi recycler
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
         recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getActivity(), recyclerView, new ClickListener() {
             @Override
             public void onClick(View view, int position) {
-
+                Toast.makeText(getActivity(),"onClick" + position,Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onLongClick(View view, int position) {
-
+                Toast.makeText(getActivity(),"onLongClick" + position,Toast.LENGTH_SHORT).show();
             }
         }));
         return layout;
@@ -183,7 +185,11 @@ public class NavigationDrawerFragment extends Fragment implements InformationAda
 
 
         private GestureDetector gestureDetector;
-        public RecyclerTouchListener(Context context,RecyclerView recyclerView, ClickListener clickListener) {
+        private ClickListener clickListener;
+
+        public RecyclerTouchListener(Context context, final RecyclerView recyclerView, final ClickListener clickListener) {
+
+            this.clickListener = clickListener;
             gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener(){
                 @Override
                 public boolean onSingleTapUp(MotionEvent e) {
@@ -192,7 +198,12 @@ public class NavigationDrawerFragment extends Fragment implements InformationAda
 
                 @Override
                 public void onLongPress(MotionEvent e) {
-                    super.onLongPress(e);
+                    // super.onLongPress(e);
+                    View child = recyclerView.findChildViewUnder(e.getX(),e.getY());
+                    if(child != null && clickListener != null){
+                        clickListener.onLongClick(child, recyclerView.getChildPosition(child));
+                    }
+
                 }
             });
         }
@@ -214,6 +225,10 @@ public class NavigationDrawerFragment extends Fragment implements InformationAda
          */
         @Override
         public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
+            View child = rv.findChildViewUnder(e.getX(),e.getY());
+            if(child != null && clickListener != null && gestureDetector.onTouchEvent(e)){
+                clickListener.onClick(child, rv.getChildPosition(child));
+            }
             return false;
         }
 
