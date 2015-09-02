@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+   <!--esto es para versiones anteriores a lolipop-->
+    <item android:state_pressed="true">
+        <shape>
+            <solid android:color="@color/colorHighLight"></solid>
+        </shape>
+    </item>
+    <item>
+        <shape>
+            <solid android:color="@android:color/white"/>
+        </shape>
+    </item>
+</selector>

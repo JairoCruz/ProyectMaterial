@@ -27,7 +27,7 @@
     Con este fragment agrego el fragment que cree para navigationDrawer
     <fragment
         android:id="@+id/fragment_navigation_drawer"
-        android:layout_width="280dp"
+        android:layout_width="340dp"
         android:layout_height="match_parent"
         app:layout="@layout/fragment_navigation_drawer"
         android:layout_gravity="start"
