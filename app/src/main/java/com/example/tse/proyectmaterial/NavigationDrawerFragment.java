@@ -11,7 +11,10 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -89,6 +92,17 @@ public class NavigationDrawerFragment extends Fragment implements InformationAda
         recyclerView.setAdapter(adapter);
         // ahora defino el layout manager para mi recycler
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getActivity(), recyclerView, new ClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+
+            }
+        }));
         return layout;
     }
 
@@ -153,9 +167,76 @@ public class NavigationDrawerFragment extends Fragment implements InformationAda
 
     @Override
     public void itemClicked(View view, int position) {
+        // puedo utilizar la position para determinar que actividad puedo lanzar en base a un item seleccionado del recycler
+        Log.e("View", String.valueOf(view));
+        Log.e("position", String.valueOf(position));
 
         // con esto invoco una segunda actividad o en este caso a la subactividad que ya tengo
         startActivity(new Intent(getActivity(), SubActivity.class));
+
+    }
+
+
+
+
+    class RecyclerTouchListener implements RecyclerView.OnItemTouchListener{
+
+
+        private GestureDetector gestureDetector;
+        public RecyclerTouchListener(Context context,RecyclerView recyclerView, ClickListener clickListener) {
+            gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener(){
+                @Override
+                public boolean onSingleTapUp(MotionEvent e) {
+                    return super.onSingleTapUp(e);
+                }
+
+                @Override
+                public void onLongPress(MotionEvent e) {
+                    super.onLongPress(e);
+                }
+            });
+        }
+
+        /**
+         * Silently observe and/or take over touch events sent to the RecyclerView
+         * before they are handled by either the RecyclerView itself or its child views.
+         * <p/>
+         * <p>The onInterceptTouchEvent methods of each attached OnItemTouchListener will be run
+         * in the order in which each listener was added, before any other touch processing
+         * by the RecyclerView itself or child views occurs.</p>
+         *
+         * @param rv
+         * @param e  MotionEvent describing the touch event. All coordinates are in
+         *           the RecyclerView's coordinate system.
+         * @return true if this OnItemTouchListener wishes to begin intercepting touch events, false
+         * to continue with the current behavior and continue observing future events in
+         * the gesture.
+         */
+        @Override
+        public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
+            return false;
+        }
+
+        /**
+         * Process a touch event as part of a gesture that was claimed by returning true from
+         * a previous call to {@link #onInterceptTouchEvent}.
+         *
+         * @param rv
+         * @param e  MotionEvent describing the touch event. All coordinates are in
+         */
+        @Override
+        public void onTouchEvent(RecyclerView rv, MotionEvent e) {
+
+        }
+
+
+
+    }
+
+    public static interface ClickListener{
+
+        public void onClick(View view, int position);
+        public void onLongClick(View view, int position);
 
     }
 }
