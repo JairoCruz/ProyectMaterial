@@ -2,6 +2,7 @@ package com.example.tse.proyectmaterial;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -24,7 +25,7 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class NavigationDrawerFragment extends Fragment {
+public class NavigationDrawerFragment extends Fragment implements InformationAdapter.ClickListener {
 
     private RecyclerView recyclerView;
 
@@ -81,6 +82,9 @@ public class NavigationDrawerFragment extends Fragment {
         recyclerView = (RecyclerView) layout.findViewById(R.id.drawerList);
         // para que se muestre mi adapter
         adapter = new InformationAdapter(getActivity(), getData());
+
+        // android RecyclerView onClickListener
+        adapter.setClickListener(this);
         // le paso a mi recycler mi adapter
         recyclerView.setAdapter(adapter);
         // ahora defino el layout manager para mi recycler
@@ -145,5 +149,13 @@ public class NavigationDrawerFragment extends Fragment {
     public static String readFromPreferences(Context context, String preferenceName, String defaulValue){
         SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_FILE_NAME, Context.MODE_PRIVATE);
        return sharedPreferences.getString(preferenceName,defaulValue);
+    }
+
+    @Override
+    public void itemClicked(View view, int position) {
+
+        // con esto invoco una segunda actividad o en este caso a la subactividad que ya tengo
+        startActivity(new Intent(getActivity(), SubActivity.class));
+
     }
 }

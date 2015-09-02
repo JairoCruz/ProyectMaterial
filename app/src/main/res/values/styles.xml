@@ -9,6 +9,8 @@
         <item name="colorPrimary">@color/primaryColor</item>
         <item name="colorPrimaryDark">@color/primaryColorDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:colorControlHighlight">@color/colorHighLight</item>
+        <item name="android:windowBackground">@android:color/white</item>
     </style>
 
     <!--con esto personalizo el texto que aparecera en mi ToolBar-->

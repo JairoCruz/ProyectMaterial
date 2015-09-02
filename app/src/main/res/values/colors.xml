@@ -9,4 +9,9 @@
     <color name="primaryColorDark">#303F9F</color>
     <!--Este color es para accent o acentuacion-->
     <color name="colorAccent">#9C27B0</color>
+    <color name="colorPrimary">#673ab7</color>
+    <color name="colorHighLight">#868686</color>
+    <color name="colorPrimaryText">#212121</color>
+    <color name="colorSecondaryText">#727272</color>
+    <color name="colorDivider">#868686</color>
 </resources>
