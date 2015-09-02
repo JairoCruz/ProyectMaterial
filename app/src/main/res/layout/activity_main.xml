@@ -8,9 +8,10 @@
     android:id="@+id/drawer_layout"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         tools:context="com.example.tse.proyectmaterial.MainActivity">
 
         <!--Con esto incluyo mi layout app_bar, el cual esta personalizado-->
@@ -19,9 +20,21 @@
             layout="@layout/app_bar"
             />
 
+        <!--con esto incluyo las Tabs-->
+        <com.example.tse.proyectmaterial.tabs.SlidingTabLayout
+            android:id="@+id/tabs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <!--Este elemento esta relacionado tambien al uso de las Tabs-->
+        <android.support.v4.view.ViewPager
+            android:id="@+id/pager"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
 
 
-    </RelativeLayout>
+    </LinearLayout>
 
 
     Con este fragment agrego el fragment que cree para navigationDrawer
