@@ -1,5 +1,6 @@
 package com.example.tse.proyectmaterial;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -50,7 +51,7 @@ public class ActivityUsingTabLibrary extends ActionBarActivity implements Materi
         for (int i = 0; i < adapter.getCount(); i ++){
             tabHost.addTab(
                     tabHost.newTab()
-            .setText(adapter.getPageTitle(i))
+            .setIcon(adapter.getIcon(i))
             .setTabListener(this));
         }
 
@@ -104,6 +105,8 @@ public class ActivityUsingTabLibrary extends ActionBarActivity implements Materi
 
     private class ViewPagerAdapter extends FragmentPagerAdapter{
 
+        int icon[] = {R.mipmap.ic_work_white_24dp, R.mipmap.ic_home_white, R.mipmap.ic_build_white};
+
         public ViewPagerAdapter(FragmentManager fm) {
             super(fm);
         }
@@ -116,12 +119,16 @@ public class ActivityUsingTabLibrary extends ActionBarActivity implements Materi
 
         @Override
         public int getCount() {
-            return 6;
+            return 3;
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
             return getResources().getStringArray(R.array.tabs)[position];
+        }
+
+        private Drawable getIcon(int position){
+            return getResources().getDrawable(icon[position]);
         }
     }
 }
