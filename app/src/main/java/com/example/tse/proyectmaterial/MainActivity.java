@@ -2,6 +2,7 @@ package com.example.tse.proyectmaterial;
 
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import com.example.tse.proyectmaterial.NavigationDrawerFragment;
 import com.example.tse.proyectmaterial.tabs.SlidingTabLayout;
@@ -12,6 +13,9 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ImageSpan;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -45,6 +49,21 @@ public class MainActivity extends ActionBarActivity{
         mPager = (ViewPager) findViewById(R.id.pager);
         mPager.setAdapter(new MyPagerAdapter(getSupportFragmentManager()));
         mTabs = (SlidingTabLayout) findViewById(R.id.tabs);
+        //aca agrego mi tab layout personalizado
+        mTabs.setCustomTabView(R.layout.custom_tab_view,R.id.tabText);
+        mTabs.setDistributeEvenly(true);
+        mTabs.setCustomTabColorizer(new SlidingTabLayout.TabColorizer(){
+
+            /**
+             * @param position
+             * @return return the color of the indicator used when {@code position} is selected.
+             */
+            @Override
+            public int getIndicatorColor(int position) {
+                return getResources().getColor(R.color.colorAccent);
+            }
+        });
+
         mTabs.setViewPager(mPager);
 
 
@@ -80,11 +99,15 @@ public class MainActivity extends ActionBarActivity{
     // Esta clase esta relacionada con el uso de los tabs
     class MyPagerAdapter extends FragmentPagerAdapter{
 
-        String[] tabs;
+       // String[] tabs;
+        // Estoy trabajando ahora con tabs con iconos
+        int icon[] = {R.mipmap.ic_work_white_24dp, R.mipmap.ic_home_white, R.mipmap.ic_build_white};
+        String[] tabText = getResources().getStringArray(R.array.tabs);
 
         public MyPagerAdapter(FragmentManager fm) {
             super(fm);
-            tabs = getResources().getStringArray(R.array.tabs);
+            // tabs = getResources().getStringArray(R.array.tabs);
+            tabText = getResources().getStringArray(R.array.tabs);
         }
 
         @Override
@@ -95,7 +118,13 @@ public class MainActivity extends ActionBarActivity{
 
         @Override
         public CharSequence getPageTitle(int position) {
-            return tabs[position];
+            // return tabs[position];
+            Drawable drawable = getResources().getDrawable(icon[position]);
+            drawable.setBounds(0,0,36,36);
+            ImageSpan imageSpan = new ImageSpan(drawable);
+            SpannableString spannableString = new SpannableString(" ");
+            spannableString.setSpan(imageSpan,0,spannableString.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            return spannableString;
         }
 
         @Override
