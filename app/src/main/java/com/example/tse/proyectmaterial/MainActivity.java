@@ -83,6 +83,10 @@ public class MainActivity extends ActionBarActivity{
             // con esto lanzo una actividad, cuando alguien hace click sobre mi toolbar icon
             startActivity(new Intent(this, SubActivity.class));
         }
+        if(id == R.id.Tab_with_library){
+            startActivity(new Intent(this, ActivityUsingTabLibrary.class));
+        }
+
 
         return super.onOptionsItemSelected(item);
     }
