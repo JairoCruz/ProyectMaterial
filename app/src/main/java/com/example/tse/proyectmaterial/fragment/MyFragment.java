@@ -16,6 +16,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.tse.proyectmaterial.R;
+import com.example.tse.proyectmaterial.network.VolleySingleton;
 
 /**
  * Created by TSE on 03/09/2015.
@@ -45,7 +46,8 @@ public  class MyFragment extends Fragment {
 
 
         // Aca empezare a hacer uso de Volley Library
-        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+        // Aca hago uso de mi clase VolleySingleton
+        RequestQueue requestQueue = VolleySingleton.getInstance().getRequestQueue();
         StringRequest request = new StringRequest(Request.Method.GET, "http://php.net/", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
