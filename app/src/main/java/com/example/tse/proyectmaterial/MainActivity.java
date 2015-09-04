@@ -86,6 +86,9 @@ public class MainActivity extends ActionBarActivity{
         if(id == R.id.Tab_with_library){
             startActivity(new Intent(this, ActivityUsingTabLibrary.class));
         }
+        if(id== R.id.VectorAndroidExample){
+            startActivity(new Intent(this,ActivityVectorTest.class));
+        }
 
 
         return super.onOptionsItemSelected(item);

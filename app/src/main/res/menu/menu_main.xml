@@ -10,6 +10,10 @@
         android:title="Tabs With Library"
         android:orderInCategory="200"
         app:showAsAction="never" />
+    <item android:id="@+id/VectorAndroidExample"
+        android:title="Vector Android Example"
+        android:orderInCategory="300"
+        app:showAsAction="never" />
     <!-- android:orderInCategory="200" con esto aparecera en el menu debajo del anterior item-->
     <!-- app:showAsAction="always" aparecera no dentro del menu sino que visible en la tootlbar-->
     <item android:title="@string/next"
