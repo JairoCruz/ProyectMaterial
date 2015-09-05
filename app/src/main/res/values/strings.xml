@@ -9,7 +9,9 @@
     <string name="title_activity_Tabs">Tab With Lib</string>
 
 
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello_blank_fragment_0">Hello blank fragment 0</string>
+    <string name="hello_blank_fragment_1">Hello blank fragment 1</string>
+    <string name="hello_blank_fragment_2">Hello blank fragment 2</string>
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
     <string-array name="tabs">

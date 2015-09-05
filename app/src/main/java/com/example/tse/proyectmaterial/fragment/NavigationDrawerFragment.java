@@ -1,4 +1,4 @@
-package com.example.tse.proyectmaterial;
+package com.example.tse.proyectmaterial.fragment;
 
 
 import android.content.Context;
@@ -19,6 +19,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.tse.proyectmaterial.R;
+import com.example.tse.proyectmaterial.SubActivity;
 import com.example.tse.proyectmaterial.adapter.InformationAdapter;
 import com.example.tse.proyectmaterial.model.Information;
 

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
@@ -12,6 +13,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.tse.proyectmaterial.fragment.FragmentBoxOffice;
+import com.example.tse.proyectmaterial.fragment.FragmentSearch;
+import com.example.tse.proyectmaterial.fragment.FragmentUpcoming;
 import com.example.tse.proyectmaterial.fragment.MyFragment;
 
 import it.neokree.materialtabs.MaterialTab;
@@ -26,6 +30,12 @@ public class ActivityUsingTabLibrary extends ActionBarActivity implements Materi
     private Toolbar toolbar;
     private ViewPager viewPager;
     private MaterialTabHost tabHost;
+
+
+    // estas variables las utilizo con tabs diferentes
+    public static final int MOVIES_SEARCH_RESULTS = 0;
+    public static final int MOVIES_HITS= 1;
+    public static final int MOVIES_UPCOMING = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +55,7 @@ public class ActivityUsingTabLibrary extends ActionBarActivity implements Materi
             @Override
             public void onPageSelected(int position) {
                 tabHost.setSelectedNavigationItem(position);
+
             }
         });
 
@@ -103,7 +114,7 @@ public class ActivityUsingTabLibrary extends ActionBarActivity implements Materi
 
 
 
-    private class ViewPagerAdapter extends FragmentPagerAdapter{
+    private class ViewPagerAdapter extends FragmentStatePagerAdapter{
 
         int icon[] = {R.mipmap.ic_work_white_24dp, R.mipmap.ic_home_white, R.mipmap.ic_build_white};
 
@@ -113,8 +124,20 @@ public class ActivityUsingTabLibrary extends ActionBarActivity implements Materi
 
         @Override
         public Fragment getItem(int position) {
-           // Estoy utilizando mi clase dentro del paquete framgment
-            return  MyFragment.getInstance(position);
+            // con esto hago que se muestren 3 frament diferentes cada uno con su respectivo layout fragment
+            Fragment fragment = null;
+            switch (position){
+                case MOVIES_SEARCH_RESULTS:
+                    fragment = FragmentSearch.newInstance("", "");
+                    break;
+                case MOVIES_HITS:
+                    fragment = FragmentBoxOffice.newInstance("", "");
+                    break;
+                case MOVIES_UPCOMING:
+                    fragment = FragmentUpcoming.newInstance("", "");
+                    break;
+            }
+            return fragment;
         }
 
         @Override

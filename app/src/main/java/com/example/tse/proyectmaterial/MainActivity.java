@@ -4,12 +4,15 @@ package com.example.tse.proyectmaterial;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import com.example.tse.proyectmaterial.NavigationDrawerFragment;
+
+import com.example.tse.proyectmaterial.fragment.FragmentSearch;
+import com.example.tse.proyectmaterial.fragment.NavigationDrawerFragment;
 import com.example.tse.proyectmaterial.tabs.SlidingTabLayout;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -29,6 +32,8 @@ public class MainActivity extends ActionBarActivity{
     private Toolbar toolbar;
     private ViewPager mPager;
     private SlidingTabLayout mTabs;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,7 +101,7 @@ public class MainActivity extends ActionBarActivity{
 
 
     // Esta clase esta relacionada con el uso de los tabs
-    class MyPagerAdapter extends FragmentPagerAdapter{
+    class MyPagerAdapter extends FragmentStatePagerAdapter{
 
        // String[] tabs;
         // Estoy trabajando ahora con tabs con iconos
@@ -113,13 +118,14 @@ public class MainActivity extends ActionBarActivity{
         public Fragment getItem(int position) {
             MyFragment myFragment = MyFragment.getInstance(position);
             return myFragment;
+
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
             // return tabs[position];
             Drawable drawable = getResources().getDrawable(icon[position]);
-            drawable.setBounds(0,0,36,36);
+            drawable.setBounds(0, 0, 36, 36);
             ImageSpan imageSpan = new ImageSpan(drawable);
             SpannableString spannableString = new SpannableString(" ");
             spannableString.setSpan(imageSpan,0,spannableString.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
