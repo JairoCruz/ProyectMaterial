@@ -16,10 +16,26 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.tse.proyectmaterial.MyAplication;
 import com.example.tse.proyectmaterial.R;
+import com.example.tse.proyectmaterial.extras.Keys;
 import com.example.tse.proyectmaterial.logging.L;
+import com.example.tse.proyectmaterial.model.Movie;
 import com.example.tse.proyectmaterial.network.VolleySingleton;
+import static com.example.tse.proyectmaterial.extras.UrlEndPoints.URL_BOX_OFFICE;
+import static com.example.tse.proyectmaterial.extras.UrlEndPoints.URL_CHAR_AMPERSAND;
+import static com.example.tse.proyectmaterial.extras.UrlEndPoints.URL_CHAR_QUESTION;
+import static com.example.tse.proyectmaterial.extras.UrlEndPoints.URL_PARAM_API_KEY;
+import static com.example.tse.proyectmaterial.extras.UrlEndPoints.URL_PARAM_LIMIT;
+import static com.example.tse.proyectmaterial.extras.Keys.EndpointBoxOffice.*;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -28,7 +44,7 @@ import org.json.JSONObject;
  */
 public class FragmentBoxOffice extends Fragment {
 
-    public static final String URL_BOX_OFFICE = "http://api.rottentomatoes.com/api/public/v1.0/lists/movies/box_office.json";
+
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -38,6 +54,9 @@ public class FragmentBoxOffice extends Fragment {
     private VolleySingleton volleySingleton;
     private ImageLoader imageLoader;
     private RequestQueue requestQueue;
+
+    private ArrayList<Movie> listMovies = new ArrayList<>();
+    private DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -78,11 +97,19 @@ public class FragmentBoxOffice extends Fragment {
         // esta es una key facil
         volleySingleton = VolleySingleton.getInstance();
         requestQueue = volleySingleton.getRequestQueue();
+
+        sendJsonRequest();
+
+    }
+
+
+    private void sendJsonRequest(){
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, getRequestUrl(10), new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
 
-                L.t(getActivity(), response.toString());
+                // L.t(getActivity(), response.toString());
+                parseJSONResponse(response);
 
             }
         }, new Response.ErrorListener() {
@@ -94,6 +121,68 @@ public class FragmentBoxOffice extends Fragment {
         requestQueue.add(request);
     }
 
+    private void parseJSONResponse(JSONObject response) {
+        if (response == null || response.length() == 0){
+            return;
+        }
+
+        try {
+            if (response.has(KEY_MOVIES)){
+                StringBuilder data = new StringBuilder();
+                JSONArray jsonArrayMovies = response.getJSONArray(KEY_MOVIES);
+                for (int i = 0; i < jsonArrayMovies.length(); i++){
+                    JSONObject currentMovies = jsonArrayMovies.getJSONObject(i);
+                    long id = currentMovies.getLong(KEY_ID);
+                    String title = currentMovies.getString(KEY_TITLE);
+                    JSONObject objectReleaseDates = currentMovies.getJSONObject(KEY_RELEASE_DATES);
+                    String relaseDate = null;
+                    if (objectReleaseDates.has(KEY_THEATER)){
+                        relaseDate = objectReleaseDates.getString(KEY_THEATER);
+                    }else{
+                        relaseDate = "N/A";
+                    }
+
+                    // GET THE AUDIENCE SCORE FOR THE CURRENT MOVIE
+                    JSONObject objectRatings = currentMovies.getJSONObject(KEY_RATINGS);
+                    int audienceScore = -1;
+                    if (objectRatings.has(KEY_AUDIENCE_SCORE)){
+                        audienceScore = objectRatings.getInt(KEY_AUDIENCE_SCORE);
+                    }
+
+                    // get the synopsis of the current movie
+                    String synopsis = currentMovies.getString(KEY_SYNOPSIS);
+
+                    // GET THE HUMBNAIL OF THE CURRENT MOVIE
+                    JSONObject objectPoster = currentMovies.getJSONObject(KEY_POSTERS);
+                    String urlThumbnail = null;
+                    if(objectPoster.has(KEY_THUMBNAIL)){
+                        urlThumbnail = objectPoster.getString(KEY_THUMBNAIL);
+                    }
+
+                   // data.append(id + " " + title + " " + relaseDate + " " + audienceScore + "\n" );
+                    Movie movie = new Movie();
+                    movie.setId(id);
+                    movie.setTitle(title);
+                    Date date = dateFormat.parse(relaseDate);
+                    movie.setReleaseDateTheater(date);
+                    movie.setAudienceScore(audienceScore);
+                    movie.setSynopsis(synopsis);
+                    movie.setUrlThumbnail(urlThumbnail);
+
+                    listMovies.add(movie);
+                }
+                 L.T(getActivity(), listMovies.toString());
+            }
+
+        }catch (JSONException e ){
+
+        }catch (ParseException e ){
+
+        }
+
+
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -103,7 +192,11 @@ public class FragmentBoxOffice extends Fragment {
 
 
     public static String getRequestUrl(int limit){
-        return URL_BOX_OFFICE + "?apikey=" + MyAplication.API_KEY_ROTTEN_TOMATOES + "&limit=" + limit;
+        return URL_BOX_OFFICE
+                + URL_CHAR_QUESTION
+                + URL_PARAM_API_KEY + MyAplication.API_KEY_ROTTEN_TOMATOES
+                + URL_CHAR_AMPERSAND
+                + URL_PARAM_LIMIT + limit;
     }
 
 
