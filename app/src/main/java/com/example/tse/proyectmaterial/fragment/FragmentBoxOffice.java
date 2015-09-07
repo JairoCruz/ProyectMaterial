@@ -10,10 +10,16 @@ import android.view.ViewGroup;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.example.tse.proyectmaterial.MyAplication;
 import com.example.tse.proyectmaterial.R;
+import com.example.tse.proyectmaterial.logging.L;
 import com.example.tse.proyectmaterial.network.VolleySingleton;
+
+import org.json.JSONObject;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -21,6 +27,9 @@ import com.example.tse.proyectmaterial.network.VolleySingleton;
  * create an instance of this fragment.
  */
 public class FragmentBoxOffice extends Fragment {
+
+    public static final String URL_BOX_OFFICE = "http://api.rottentomatoes.com/api/public/v1.0/lists/movies/box_office.json";
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -69,8 +78,20 @@ public class FragmentBoxOffice extends Fragment {
         // esta es una key facil
         volleySingleton = VolleySingleton.getInstance();
         requestQueue = volleySingleton.getRequestQueue();
-        // en este punto el json que recuperare es un array y no un object
-        //JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET)
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, getRequestUrl(10), new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+
+                L.t(getActivity(), response.toString());
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        requestQueue.add(request);
     }
 
     @Override
@@ -78,6 +99,11 @@ public class FragmentBoxOffice extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_fragment_box_office, container, false);
+    }
+
+
+    public static String getRequestUrl(int limit){
+        return URL_BOX_OFFICE + "?apikey=" + MyAplication.API_KEY_ROTTEN_TOMATOES + "&limit=" + limit;
     }
 
 
