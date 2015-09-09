@@ -90,7 +90,14 @@ public class AdapterBoxOffice extends RecyclerView.Adapter<AdapterBoxOffice.View
         Movie currentMovie = listMovies.get(position);
         holder.movieTitle.setText(currentMovie.getTitle());
         holder.movieReleaseDate.setText(currentMovie.getReleaseDateTheater().toString());
-        holder.movieAudienceScore.setRating(currentMovie.getAudienceScore()/20.0F);
+        int audienceScore = currentMovie.getAudienceScore();
+        if(audienceScore == -1){
+            holder.movieAudienceScore.setRating(0.0F);
+            holder.movieAudienceScore.setAlpha(0.5F);
+        }else {
+            holder.movieAudienceScore.setRating(audienceScore / 20.0F);
+            holder.movieAudienceScore.setAlpha(1.0F);
+        }
         String urlThumnail = currentMovie.getUrlThumbnail();
         if (urlThumnail != null){
             imageLoader.get(urlThumnail, new ImageLoader.ImageListener() {
@@ -131,7 +138,7 @@ public class AdapterBoxOffice extends RecyclerView.Adapter<AdapterBoxOffice.View
             movieThumbnail = (ImageView) itemView.findViewById(R.id.movieThumbnail);
             movieTitle = (TextView) itemView.findViewById(R.id.movieTitle);
             movieReleaseDate = (TextView) itemView.findViewById(R.id.movieReleaseDate);
-            movieAudienceScore = (RatingBar) itemView.findViewById(R.id.listMovieHits);
+            movieAudienceScore = (RatingBar) itemView.findViewById(R.id.movieAudienceScore);
 
         }
     }

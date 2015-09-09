@@ -106,7 +106,7 @@ public class FragmentBoxOffice extends Fragment {
         volleySingleton = VolleySingleton.getInstance();
         requestQueue = volleySingleton.getRequestQueue();
 
-        sendJsonRequest();
+        // sendJsonRequest();
 
     }
 
@@ -115,7 +115,6 @@ public class FragmentBoxOffice extends Fragment {
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, getRequestUrl(10), new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-
                 // L.t(getActivity(), response.toString());
                listMovies = parseJSONResponse(response);
                 adapterBoxOffice.setMovieList(listMovies);
@@ -133,7 +132,7 @@ public class FragmentBoxOffice extends Fragment {
 
     private ArrayList<Movie> parseJSONResponse(JSONObject response) {
         ArrayList<Movie> listMovies = new ArrayList<>();
-        if (response == null || response.length() == 0){
+        if (response != null && response.length() > 0){
 
             try {
                 if (response.has(KEY_MOVIES)){
@@ -192,7 +191,8 @@ public class FragmentBoxOffice extends Fragment {
 
 
         }
-
+        L.T(getActivity(), listMovies.toString());
+        Log.e("arrrrrrr", listMovies.toString());
         return listMovies;
 
     }
