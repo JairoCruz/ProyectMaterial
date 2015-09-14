@@ -8,6 +8,9 @@ import android.os.Bundle;
 import com.example.tse.proyectmaterial.fragment.FragmentSearch;
 import com.example.tse.proyectmaterial.fragment.NavigationDrawerFragment;
 import com.example.tse.proyectmaterial.tabs.SlidingTabLayout;
+import com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton;
+import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
+import com.oguzdev.circularfloatingactionmenu.library.SubActionButton;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -25,6 +28,7 @@ import android.view.MenuItem;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class MainActivity extends ActionBarActivity{
@@ -55,7 +59,7 @@ public class MainActivity extends ActionBarActivity{
         mPager.setAdapter(new MyPagerAdapter(getSupportFragmentManager()));
         mTabs = (SlidingTabLayout) findViewById(R.id.tabs);
         //aca agrego mi tab layout personalizado
-        mTabs.setCustomTabView(R.layout.custom_tab_view,R.id.tabText);
+        mTabs.setCustomTabView(R.layout.custom_tab_view, R.id.tabText);
         mTabs.setDistributeEvenly(true);
 
         mTabs.setBackgroundColor(getResources().getColor(R.color.primaryColor));
@@ -63,6 +67,46 @@ public class MainActivity extends ActionBarActivity{
 
         mTabs.setViewPager(mPager);
 
+        builderFAB();
+
+
+    }
+
+    private void builderFAB(){
+        // Este codigo es para utilizar un boton flotante
+        // con la ayuda de una libreria
+        ImageView imageView = new ImageView(this);
+        imageView.setImageResource(R.mipmap.ic_action_new);
+        // con este codigo ya aparece el boton flotante no he tenido que agregar ningun elemento en el layout
+        FloatingActionButton actionButton = new FloatingActionButton.Builder(this)
+                .setContentView(imageView)
+                .setBackgroundDrawable(R.drawable.selector_button_red)
+                .build();
+
+        // con esto estoy creando 3 iconos para que aparescan como un sub menu cuando se de click en el boton
+        ImageView iconSortName = new ImageView(this);
+        iconSortName.setImageResource(R.mipmap.ic_add_shopping_cart_white);
+
+        ImageView iconSortDate = new ImageView(this);
+        iconSortDate.setImageResource(R.mipmap.ic_alarm_on_white);
+
+        ImageView iconSortRatings = new ImageView(this);
+        iconSortRatings.setImageResource(R.mipmap.ic_home_white);
+
+        SubActionButton.Builder itemBuilder = new SubActionButton.Builder(this);
+        itemBuilder.setBackgroundDrawable(getResources().getDrawable(R.drawable.selector_sub_button_gray));
+        // con esto los agrego
+        SubActionButton buttonSortName = itemBuilder.setContentView(iconSortName).build();
+        SubActionButton buttonSortDate = itemBuilder.setContentView(iconSortDate).build();
+        SubActionButton buttonSortRatings = itemBuilder.setContentView(iconSortRatings).build();
+
+        // con esto se agregan al boton
+        FloatingActionMenu actionMenu = new FloatingActionMenu.Builder(this)
+                .addSubActionView(buttonSortName)
+                .addSubActionView(buttonSortDate)
+                .addSubActionView(buttonSortRatings)
+                .attachTo(actionButton)
+                .build();
 
     }
 
