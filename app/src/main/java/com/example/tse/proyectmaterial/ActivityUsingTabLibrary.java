@@ -148,6 +148,7 @@ public class ActivityUsingTabLibrary extends ActionBarActivity implements Materi
         @Override
         public CharSequence getPageTitle(int position) {
             return getResources().getStringArray(R.array.tabs)[position];
+
         }
 
         private Drawable getIcon(int position){
