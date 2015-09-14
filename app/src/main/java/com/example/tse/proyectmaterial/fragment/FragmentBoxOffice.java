@@ -29,6 +29,8 @@ import com.example.tse.proyectmaterial.R;
 import com.example.tse.proyectmaterial.adapter.AdapterBoxOffice;
 import com.example.tse.proyectmaterial.extras.Constants;
 import com.example.tse.proyectmaterial.extras.Keys;
+import com.example.tse.proyectmaterial.extras.MovieSorter;
+import com.example.tse.proyectmaterial.extras.SortListener;
 import com.example.tse.proyectmaterial.extras.Utils;
 import com.example.tse.proyectmaterial.logging.L;
 import com.example.tse.proyectmaterial.model.Movie;
@@ -56,7 +58,7 @@ import java.util.List;
  * Use the {@link FragmentBoxOffice#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FragmentBoxOffice extends Fragment {
+public class FragmentBoxOffice extends Fragment implements SortListener {
 
 
 
@@ -75,6 +77,8 @@ public class FragmentBoxOffice extends Fragment {
 
     private AdapterBoxOffice adapterBoxOffice;
     private TextView textVolleyError;
+
+    private MovieSorter mSorter = new MovieSorter();
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -264,4 +268,25 @@ public class FragmentBoxOffice extends Fragment {
     }
 
 
+    @Override
+    public void onSortByName() {
+        L.t(getActivity(), "sort name box office");
+        mSorter.sortMoviesByName(listMovies);
+        adapterBoxOffice.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onSortByDate() {
+
+        mSorter.sortMoviesByDate(listMovies);
+        adapterBoxOffice.notifyDataSetChanged();
+
+    }
+
+    @Override
+    public void onSortByRating() {
+        mSorter.sortMoviesByRating(listMovies);
+        adapterBoxOffice.notifyDataSetChanged();
+
+    }
 }

@@ -8,13 +8,15 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.tse.proyectmaterial.R;
+import com.example.tse.proyectmaterial.extras.SortListener;
+import com.example.tse.proyectmaterial.logging.L;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link FragmentUpcoming#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FragmentUpcoming extends Fragment {
+public class FragmentUpcoming extends Fragment implements SortListener{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -64,4 +66,18 @@ public class FragmentUpcoming extends Fragment {
     }
 
 
+    @Override
+    public void onSortByName() {
+        L.t(getActivity(), "sort name upcoming");
+    }
+
+    @Override
+    public void onSortByDate() {
+
+    }
+
+    @Override
+    public void onSortByRating() {
+
+    }
 }

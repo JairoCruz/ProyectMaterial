@@ -12,11 +12,18 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
 
+import com.example.tse.proyectmaterial.extras.SortListener;
 import com.example.tse.proyectmaterial.fragment.FragmentBoxOffice;
 import com.example.tse.proyectmaterial.fragment.FragmentSearch;
 import com.example.tse.proyectmaterial.fragment.FragmentUpcoming;
 import com.example.tse.proyectmaterial.fragment.MyFragment;
+import com.example.tse.proyectmaterial.logging.L;
+import com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton;
+import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
+import com.oguzdev.circularfloatingactionmenu.library.SubActionButton;
 
 import it.neokree.materialtabs.MaterialTab;
 import it.neokree.materialtabs.MaterialTabHost;
@@ -25,11 +32,18 @@ import it.neokree.materialtabs.MaterialTabListener;
 /**
  * Created by TSE on 03/09/2015.
  */
-public class ActivityUsingTabLibrary extends ActionBarActivity implements MaterialTabListener {
+public class ActivityUsingTabLibrary extends ActionBarActivity implements MaterialTabListener, View.OnClickListener {
 
     private Toolbar toolbar;
     private ViewPager viewPager;
     private MaterialTabHost tabHost;
+
+    private ViewPagerAdapter adapter;
+
+
+    private static final String TAG_SORT_NAME ="sortName";
+    private static final String TAG_SORT_DATE ="sortDate";
+    private static final String TAG_SORT_RATINGS ="sortRatings";
 
 
     // estas variables las utilizo con tabs diferentes
@@ -49,7 +63,7 @@ public class ActivityUsingTabLibrary extends ActionBarActivity implements Materi
         tabHost = (MaterialTabHost) findViewById(R.id.materialTabHost);
         viewPager = (ViewPager) findViewById(R.id.viewPager);
 
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        adapter = new ViewPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(adapter);
         viewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener(){
             @Override
@@ -65,6 +79,8 @@ public class ActivityUsingTabLibrary extends ActionBarActivity implements Materi
             .setIcon(adapter.getIcon(i))
             .setTabListener(this));
         }
+
+        builderFAB();
 
     }
 
@@ -154,5 +170,74 @@ public class ActivityUsingTabLibrary extends ActionBarActivity implements Materi
         private Drawable getIcon(int position){
             return getResources().getDrawable(icon[position]);
         }
+    }
+
+    private void builderFAB(){
+        // Este codigo es para utilizar un boton flotante
+        // con la ayuda de una libreria
+        ImageView imageView = new ImageView(this);
+        imageView.setImageResource(R.mipmap.ic_action_new);
+
+        // con este codigo ya aparece el boton flotante no he tenido que agregar ningun elemento en el layout
+        FloatingActionButton actionButton = new FloatingActionButton.Builder(this)
+                .setContentView(imageView)
+                .setBackgroundDrawable(R.drawable.selector_button_red)
+                .build();
+
+        // con esto estoy creando 3 iconos para que aparescan como un sub menu cuando se de click en el boton
+        ImageView iconSortName = new ImageView(this);
+        iconSortName.setImageResource(R.mipmap.ic_add_shopping_cart_white);
+
+        ImageView iconSortDate = new ImageView(this);
+        iconSortDate.setImageResource(R.mipmap.ic_alarm_on_white);
+
+        ImageView iconSortRatings = new ImageView(this);
+        iconSortRatings.setImageResource(R.mipmap.ic_home_white);
+
+        SubActionButton.Builder itemBuilder = new SubActionButton.Builder(this);
+        itemBuilder.setBackgroundDrawable(getResources().getDrawable(R.drawable.selector_sub_button_gray));
+        // con esto los agrego
+        SubActionButton buttonSortName = itemBuilder.setContentView(iconSortName).build();
+        SubActionButton buttonSortDate = itemBuilder.setContentView(iconSortDate).build();
+        SubActionButton buttonSortRatings = itemBuilder.setContentView(iconSortRatings).build();
+
+        buttonSortName.setTag(TAG_SORT_NAME);
+        buttonSortDate.setTag(TAG_SORT_DATE);
+        buttonSortRatings.setTag(TAG_SORT_RATINGS);
+
+        buttonSortName.setOnClickListener(this);
+        buttonSortDate.setOnClickListener(this);
+        buttonSortRatings.setOnClickListener(this);
+
+        // con esto se agregan al boton
+        FloatingActionMenu actionMenu = new FloatingActionMenu.Builder(this)
+                .addSubActionView(buttonSortName)
+                .addSubActionView(buttonSortDate)
+                .addSubActionView(buttonSortRatings)
+                .attachTo(actionButton)
+                .build();
+
+    }
+
+    @Override
+    public void onClick(View v) {
+        Fragment fragment = (Fragment) adapter.instantiateItem(viewPager, viewPager.getCurrentItem());
+        if (fragment instanceof SortListener){
+
+            if (v.getTag().equals(TAG_SORT_NAME)){
+                // L.t(this,"sort name was clicked");
+                ((SortListener) fragment).onSortByName();
+
+            }
+            if (v.getTag().equals(TAG_SORT_DATE)){
+                // L.t(this, "sort date was clicked");
+                ((SortListener) fragment).onSortByDate();
+            }
+            if (v.getTag().equals(TAG_SORT_RATINGS)){
+                // L.t(this,"sort ratings was clicked");
+                ((SortListener) fragment).onSortByRating();
+            }
+        }
+
     }
 }
