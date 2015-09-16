@@ -66,6 +66,7 @@ public class FragmentBoxOffice extends Fragment implements SortListener {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private static final String STATE_MOVIES = "state_movies" ;
 
     private VolleySingleton volleySingleton;
     private ImageLoader imageLoader;
@@ -124,6 +125,11 @@ public class FragmentBoxOffice extends Fragment implements SortListener {
 
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArrayList(STATE_MOVIES, listMovies);
+    }
 
     private void sendJsonRequest(){
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, getRequestUrl(10), new Response.Listener<JSONObject>() {
@@ -254,7 +260,13 @@ public class FragmentBoxOffice extends Fragment implements SortListener {
         listMovieHits.setLayoutManager(new LinearLayoutManager(getActivity()));
         adapterBoxOffice = new AdapterBoxOffice(getActivity());
         listMovieHits.setAdapter(adapterBoxOffice);
-        sendJsonRequest();
+        if (savedInstanceState != null){
+            listMovies = savedInstanceState.getParcelableArrayList(STATE_MOVIES);
+            adapterBoxOffice.setMovieList(listMovies);
+        }else{
+            sendJsonRequest();
+        }
+
         return view;
     }
 
