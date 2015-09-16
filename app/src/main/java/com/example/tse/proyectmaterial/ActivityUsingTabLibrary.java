@@ -1,5 +1,6 @@
 package com.example.tse.proyectmaterial;
 
+import android.content.ComponentName;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -21,6 +22,7 @@ import com.example.tse.proyectmaterial.fragment.FragmentSearch;
 import com.example.tse.proyectmaterial.fragment.FragmentUpcoming;
 import com.example.tse.proyectmaterial.fragment.MyFragment;
 import com.example.tse.proyectmaterial.logging.L;
+import com.example.tse.proyectmaterial.services.MyService;
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton;
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
 import com.oguzdev.circularfloatingactionmenu.library.SubActionButton;
@@ -28,12 +30,15 @@ import com.oguzdev.circularfloatingactionmenu.library.SubActionButton;
 import it.neokree.materialtabs.MaterialTab;
 import it.neokree.materialtabs.MaterialTabHost;
 import it.neokree.materialtabs.MaterialTabListener;
+import me.tatarka.support.job.JobInfo;
+import me.tatarka.support.job.JobScheduler;
 
 /**
  * Created by TSE on 03/09/2015.
  */
 public class ActivityUsingTabLibrary extends ActionBarActivity implements MaterialTabListener, View.OnClickListener {
 
+    private static final int JOB_ID = 100;
     private Toolbar toolbar;
     private ViewPager viewPager;
     private MaterialTabHost tabHost;
@@ -51,9 +56,15 @@ public class ActivityUsingTabLibrary extends ActionBarActivity implements Materi
     public static final int MOVIES_HITS= 1;
     public static final int MOVIES_UPCOMING = 2;
 
+    private JobScheduler mJobScheduler;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mJobScheduler = JobScheduler.getInstance(this);
+        constructJob();
+
         setContentView(R.layout.activity_using_tab_library);
         toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
@@ -82,6 +93,15 @@ public class ActivityUsingTabLibrary extends ActionBarActivity implements Materi
 
         builderFAB();
 
+    }
+
+    private void constructJob(){
+        JobInfo.Builder builder = new JobInfo.Builder(JOB_ID, new ComponentName(this, MyService.class));
+        builder.setPeriodic(2000)
+                .setRequiredNetworkType(JobInfo.NETWORK_TYPE_UNMETERED)
+                .setPersisted(true);
+
+        mJobScheduler.schedule(builder.build());
     }
 
     @Override
