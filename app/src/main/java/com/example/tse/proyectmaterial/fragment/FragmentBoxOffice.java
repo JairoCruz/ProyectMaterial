@@ -180,6 +180,11 @@ public class FragmentBoxOffice extends Fragment implements SortListener {
                         int audienceScore = -1;
                         String urlThumbnail = Constants.NA;
                         String synopsis = Constants.NA;
+                        // Estos los agregos ya que los agregare a la db sqlite
+                        String urlSelft = Constants.NA;
+                        String urlCast = Constants.NA;
+                        String urlReviews = Constants.NA;
+                        String urlSimilar = Constants.NA;
                         JSONObject currentMovies = jsonArrayMovies.getJSONObject(i);
 
                         if (Utils.contains(currentMovies, KEY_ID)){
@@ -218,6 +223,21 @@ public class FragmentBoxOffice extends Fragment implements SortListener {
                         }
 
 
+                        // recupero estos ya que los agregare a la db
+                        if (Utils.contains(currentMovies,KEY_LINKS)){
+                            JSONObject objectLinks = currentMovies.getJSONObject(KEY_LINKS);
+                            if (Utils.contains(objectLinks, KEY_SELF)){
+                                urlSelft = objectLinks.getString(KEY_SELF);
+                            }
+                            if (Utils.contains(objectLinks, KEY_REVIEWS)){
+                                urlReviews = objectLinks.getString(KEY_REVIEWS);
+                            }
+                            if (Utils.contains(objectLinks, KEY_SIMILAR)){
+                                urlSimilar = objectLinks.getString(KEY_SIMILAR);
+                            }
+                        }
+
+
 
                         Movie movie = new Movie();
                         movie.setId(id);
@@ -232,6 +252,10 @@ public class FragmentBoxOffice extends Fragment implements SortListener {
                         movie.setAudienceScore(audienceScore);
                         movie.setSynopsis(synopsis);
                         movie.setUrlThumbnail(urlThumbnail);
+                        movie.setUrlSelf(urlSelft);
+                        movie.setUrlCast(urlCast);
+                        movie.setUrlReviews(urlReviews);
+                        movie.setUrlSimilar(urlSimilar);
 
                         if(id != -1 && !title.equals(Constants.NA)){
                             listMovies.add(movie);
