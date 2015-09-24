@@ -30,7 +30,7 @@ public class MoviesDatabase {
             deleteAll();
         }
         // Create a sql prepared Statement
-        String sql = "INSERT INTO " + MoviesHelper.TABLE_BOX_OFFICE + " VALUES(?,?,?,?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO " + MoviesHelper.TABLE_BOX_OFFICE + " VALUES (?,?,?,?,?,?,?,?,?,?);";
 
         // compile the statement and start a transaction
         SQLiteStatement statement = mDatabase.compileStatement(sql);
