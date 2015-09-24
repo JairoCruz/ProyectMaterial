@@ -1,6 +1,7 @@
 package com.example.tse.proyectmaterial;
 
 
+import android.content.ComponentName;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import com.example.tse.proyectmaterial.extras.SortListener;
 import com.example.tse.proyectmaterial.fragment.FragmentSearch;
 import com.example.tse.proyectmaterial.fragment.NavigationDrawerFragment;
 import com.example.tse.proyectmaterial.logging.L;
+import com.example.tse.proyectmaterial.services.MyService;
 import com.example.tse.proyectmaterial.tabs.SlidingTabLayout;
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton;
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
@@ -33,14 +35,21 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import android.os.Handler;
+
 import it.neokree.materialtabs.MaterialTab;
 import it.neokree.materialtabs.MaterialTabListener;
+import me.tatarka.support.job.JobInfo;
+import me.tatarka.support.job.JobScheduler;
 
 public class MainActivity extends ActionBarActivity{
 
     private Toolbar toolbar;
     private ViewPager mPager;
     private SlidingTabLayout mTabs;
+    private static final int JOB_ID = 100;
+    private static final long POLLY_FREQUENCY = 28800000;
+    private JobScheduler mJobScheduler;
 
 
 
@@ -49,8 +58,20 @@ public class MainActivity extends ActionBarActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+
         //aca solo cambio el layout principal que mostrara, es cual es un drawer que no oculta el toolbar
         setContentView(R.layout.activity_main);
+
+        mJobScheduler = JobScheduler.getInstance(this);
+        new Handler().postDelayed(new Runnable(){
+
+            @Override
+            public void run() {
+                contructJob();
+            }
+        }, 30000);
 
         // Para empezar a utilizar mi ToolBar personalizado
         toolbar = (Toolbar) findViewById(R.id.app_bar);
@@ -116,7 +137,13 @@ public class MainActivity extends ActionBarActivity{
 
 
 
-
+    private void contructJob(){
+        JobInfo.Builder builder = new JobInfo.Builder(JOB_ID, new ComponentName(this, MyService.class));
+        builder.setPeriodic(POLLY_FREQUENCY)
+                .setRequiredNetworkType(JobInfo.NETWORK_TYPE_UNMETERED)
+                .setPersisted(true);
+        mJobScheduler.schedule(builder.build());
+    }
 
 
     // Esta clase esta relacionada con el uso de los tabs

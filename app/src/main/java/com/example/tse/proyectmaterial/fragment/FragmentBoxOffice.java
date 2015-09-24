@@ -23,11 +23,13 @@ import com.android.volley.toolbox.ImageLoader;
 import com.example.tse.proyectmaterial.MyAplication;
 import com.example.tse.proyectmaterial.R;
 import com.example.tse.proyectmaterial.adapter.AdapterBoxOffice;
+import com.example.tse.proyectmaterial.callbacks.BoxOfficeMoviesLoadedListener;
 import com.example.tse.proyectmaterial.extras.MovieSorter;
 import com.example.tse.proyectmaterial.extras.SortListener;
 import com.example.tse.proyectmaterial.logging.L;
 import com.example.tse.proyectmaterial.model.Movie;
 import com.example.tse.proyectmaterial.network.VolleySingleton;
+import com.example.tse.proyectmaterial.task.TaskLoadMoviesBoxOffice;
 
 import java.util.ArrayList;
 
@@ -36,7 +38,7 @@ import java.util.ArrayList;
  * Use the {@link FragmentBoxOffice#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FragmentBoxOffice extends Fragment implements SortListener {
+public class FragmentBoxOffice extends Fragment implements SortListener, BoxOfficeMoviesLoadedListener {
 
 
 
@@ -143,14 +145,11 @@ public class FragmentBoxOffice extends Fragment implements SortListener {
         listMovieHits.setAdapter(adapterBoxOffice);
         if (savedInstanceState != null){
             listMovies = savedInstanceState.getParcelableArrayList(STATE_MOVIES);
-           // adapterBoxOffice.setMovieList(listMovies);
         }else{
-            // sendJsonRequest();
-            try {
-                listMovies = MyAplication.getWritableDatabase().getAllMoviesBoxOffice();
-                Log.e("Errorrrr: ", "hey paso por aqui");
-            }catch (Exception e){
-                Log.e("Errorrrr: ", e.getMessage());
+            listMovies = MyAplication.getWritableDatabase().getAllMoviesBoxOffice();
+            if(listMovies.isEmpty()){
+                L.t(getActivity(), "Executing task from fragment");
+                new TaskLoadMoviesBoxOffice(this).execute();
             }
         }
         adapterBoxOffice.setMovieList(listMovies);
@@ -182,5 +181,11 @@ public class FragmentBoxOffice extends Fragment implements SortListener {
         mSorter.sortMoviesByRating(listMovies);
         adapterBoxOffice.notifyDataSetChanged();
 
+    }
+
+    @Override
+    public void onBoxOfficeMoviesLoaded(ArrayList<Movie> listMovies) {
+        L.t(getActivity(), "onBoxOfficeMoviesLoades Fragment");
+        adapterBoxOffice.setMovieList(listMovies);
     }
 }
