@@ -9,9 +9,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.ScaleAnimation;
 import android.widget.EditText;
 
 import com.example.tse.proyectmaterial.adapter.AdapterRecyclerItemAnimations;
+
+import jp.wasabeef.recyclerview.animators.ScaleInAnimator;
+import jp.wasabeef.recyclerview.animators.adapters.ScaleInAnimationAdapter;
 
 public class ActivityRecyclerItemAnimation extends ActionBarActivity {
 
@@ -33,10 +37,11 @@ public class ActivityRecyclerItemAnimation extends ActionBarActivity {
 
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerAnimatedItems);
         mAdapter = new AdapterRecyclerItemAnimations(this);
-        // Con esta linea estoy animando my recycler view
-        DefaultItemAnimator animator = new DefaultItemAnimator();
-        animator.setAddDuration(1000);
-        animator.setRemoveDuration(1000);
+        // Con esta linea estoy animando my recycler view con una libreria externa
+        ScaleInAnimator animator = new ScaleInAnimator();
+        animator.setAddDuration(2000);
+        animator.setRemoveDuration(2000);
+
         mRecyclerView.setItemAnimator(animator);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
