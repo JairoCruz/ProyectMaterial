@@ -2,10 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.tse.proyectmaterial" >
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.WAKE_LOCK"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
         android:name=".MyAplication"
@@ -25,27 +25,47 @@
         <activity
             android:name=".SubActivity"
             android:label="@string/title_activity_sub" >
-            <!--con esto le digo a mi sub actividad que sera hija de mi actividad principal, para que funcione el boton en la-->
-            <!--sub actividad que me regrese a mi actividad principal-->
-            <meta-data android:name="android.support.PARENT_ACTIVITY" android:value=".MainActivity"/>
+
+            <!-- con esto le digo a mi sub actividad que sera hija de mi actividad principal, para que funcione el boton en la -->
+            <!-- sub actividad que me regrese a mi actividad principal -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
         </activity>
         <activity
             android:name=".ActivityUsingTabLibrary"
             android:label="@string/title_activity_Tabs" >
-            <!--con esto le digo a mi sub actividad que sera hija de mi actividad principal, para que funcione el boton en la-->
-            <!--sub actividad que me regrese a mi actividad principal-->
-            <meta-data android:name="android.support.PARENT_ACTIVITY" android:value=".MainActivity"/>
+
+            <!-- con esto le digo a mi sub actividad que sera hija de mi actividad principal, para que funcione el boton en la -->
+            <!-- sub actividad que me regrese a mi actividad principal -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
         </activity>
         <activity
             android:name=".ActivityVectorTest"
             android:label="@string/title_activity_Tabs" >
-            <!--con esto le digo a mi sub actividad que sera hija de mi actividad principal, para que funcione el boton en la-->
-            <!--sub actividad que me regrese a mi actividad principal-->
-            <meta-data android:name="android.support.PARENT_ACTIVITY" android:value=".MainActivity"/>
+
+            <!-- con esto le digo a mi sub actividad que sera hija de mi actividad principal, para que funcione el boton en la -->
+            <!-- sub actividad que me regrese a mi actividad principal -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
         </activity>
-        <service android:name=".services.MyService"
-            android:permission="android.permission.BIND_JOB_SERVICE"
-            android:exported="true"/>
+
+        <service
+            android:name=".services.MyService"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+
+        <activity
+            android:name=".ActivityRecyclerItemAnimation"
+            android:label="@string/title_activity_activity_recycler_item_animation" >
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
     </application>
 
 </manifest>

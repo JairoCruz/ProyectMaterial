@@ -130,6 +130,9 @@ public class MainActivity extends ActionBarActivity{
         if(id== R.id.VectorAndroidExample){
             startActivity(new Intent(this,ActivityVectorTest.class));
         }
+        if(id == R.id.RecyclerItemAnimator){
+            startActivity(new Intent(this, ActivityRecyclerItemAnimation.class));
+        }
 
 
         return super.onOptionsItemSelected(item);
