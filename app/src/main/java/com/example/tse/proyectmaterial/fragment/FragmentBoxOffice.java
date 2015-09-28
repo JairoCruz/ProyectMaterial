@@ -3,6 +3,7 @@ package com.example.tse.proyectmaterial.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -38,7 +39,7 @@ import java.util.ArrayList;
  * Use the {@link FragmentBoxOffice#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FragmentBoxOffice extends Fragment implements SortListener, BoxOfficeMoviesLoadedListener {
+public class FragmentBoxOffice extends Fragment implements SortListener, BoxOfficeMoviesLoadedListener, SwipeRefreshLayout.OnRefreshListener {
 
 
 
@@ -62,6 +63,9 @@ public class FragmentBoxOffice extends Fragment implements SortListener, BoxOffi
     private TextView textVolleyError;
 
     private MovieSorter mSorter = new MovieSorter();
+
+    // Declaro una variable del tipo SwipeRefresh
+    private SwipeRefreshLayout mSwipeRefreshLayout;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -139,6 +143,9 @@ public class FragmentBoxOffice extends Fragment implements SortListener, BoxOffi
 
         View view = inflater.inflate(R.layout.fragment_fragment_box_office,container,false);
         textVolleyError = (TextView) view.findViewById(R.id.textVolleyError);
+        // Recupero de mi vista el swipeRefresh
+        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeListMoviesHits);
+        mSwipeRefreshLayout.setOnRefreshListener(this);
         listMovieHits = (RecyclerView) view.findViewById(R.id.listMovieHits);
         listMovieHits.setLayoutManager(new LinearLayoutManager(getActivity()));
         adapterBoxOffice = new AdapterBoxOffice(getActivity());
@@ -186,6 +193,15 @@ public class FragmentBoxOffice extends Fragment implements SortListener, BoxOffi
     @Override
     public void onBoxOfficeMoviesLoaded(ArrayList<Movie> listMovies) {
         L.t(getActivity(), "onBoxOfficeMoviesLoades Fragment");
+        if(mSwipeRefreshLayout.isRefreshing()){
+            mSwipeRefreshLayout.setRefreshing(false);
+        }
         adapterBoxOffice.setMovieList(listMovies);
+    }
+
+    @Override
+    public void onRefresh() {
+        L.t(getActivity(), "OnRefresh");
+        new TaskLoadMoviesBoxOffice(this).execute();
     }
 }
