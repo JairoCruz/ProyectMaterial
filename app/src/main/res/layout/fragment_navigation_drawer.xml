@@ -5,26 +5,12 @@
     android:background="#DADADA"
     tools:context="com.example.tse.proyectmaterial.fragment.NavigationDrawerFragment">
 
-    <LinearLayout
-        android:id="@+id/container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#378ab9">
 
-        <ImageView
-            android:layout_width="277dp"
-            android:layout_height="182dp"
-            android:layout_marginBottom="16dp"
-            android:layout_marginTop="24dp"
-            android:src="@mipmap/images" />
-
-    </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/drawerList"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/container"
         android:layout_alignParentStart="true">
 
     </android.support.v7.widget.RecyclerView>

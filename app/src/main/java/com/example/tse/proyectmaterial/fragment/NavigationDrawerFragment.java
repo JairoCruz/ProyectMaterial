@@ -104,8 +104,9 @@ public class NavigationDrawerFragment extends Fragment /*implements InformationA
                 Toast.makeText(getActivity(), "onClick" + position, Toast.LENGTH_SHORT).show();
                // Con esta linea le digo a mi navigation drawer que se oculte
                 mdrawerLayout.closeDrawer(GravityCompat.START);
-
-                ((MainActivity)getActivity()).onDrawerItemClicked(position);
+                // este menos uno lo coloco aqui ya que estoy definiendo un encabezado en mi recyclerview de navigation
+                // drawer, entonces para que no agregue un listener al elemento encabezado le coloco este -1
+                ((MainActivity)getActivity()).onDrawerItemClicked(position - 1);
             }
 
             @Override
