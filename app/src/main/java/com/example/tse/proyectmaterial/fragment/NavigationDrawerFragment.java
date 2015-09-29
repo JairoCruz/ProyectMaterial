@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.tse.proyectmaterial.MainActivity;
 import com.example.tse.proyectmaterial.R;
 import com.example.tse.proyectmaterial.SubActivity;
 import com.example.tse.proyectmaterial.adapter.InformationAdapter;
@@ -31,7 +33,7 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class NavigationDrawerFragment extends Fragment implements InformationAdapter.ClickListener {
+public class NavigationDrawerFragment extends Fragment /*implements InformationAdapter.ClickListener*/ {
 
     private RecyclerView recyclerView;
 
@@ -90,7 +92,7 @@ public class NavigationDrawerFragment extends Fragment implements InformationAda
         adapter = new InformationAdapter(getActivity(), getData());
 
         // android RecyclerView onClickListener
-        adapter.setClickListener(this);
+       // adapter.setClickListener(this);
         // le paso a mi recycler mi adapter
         recyclerView.setAdapter(adapter);
         // ahora defino el layout manager para mi recycler
@@ -99,12 +101,16 @@ public class NavigationDrawerFragment extends Fragment implements InformationAda
         recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getActivity(), recyclerView, new ClickListener() {
             @Override
             public void onClick(View view, int position) {
-                Toast.makeText(getActivity(),"onClick" + position,Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "onClick" + position, Toast.LENGTH_SHORT).show();
+               // Con esta linea le digo a mi navigation drawer que se oculte
+                mdrawerLayout.closeDrawer(GravityCompat.START);
+
+                ((MainActivity)getActivity()).onDrawerItemClicked(position);
             }
 
             @Override
             public void onLongClick(View view, int position) {
-                Toast.makeText(getActivity(),"onLongClick" + position,Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "onLongClick" + position, Toast.LENGTH_SHORT).show();
             }
         }));
         return layout;
@@ -169,16 +175,16 @@ public class NavigationDrawerFragment extends Fragment implements InformationAda
        return sharedPreferences.getString(preferenceName,defaulValue);
     }
 
-    @Override
+    /*@Override
     public void itemClicked(View view, int position) {
         // puedo utilizar la position para determinar que actividad puedo lanzar en base a un item seleccionado del recycler
         Log.e("View", String.valueOf(view));
         Log.e("position", String.valueOf(position));
 
         // con esto invoco una segunda actividad o en este caso a la subactividad que ya tengo
-        startActivity(new Intent(getActivity(), SubActivity.class));
+       // startActivity(new Intent(getActivity(), SubActivity.class));
 
-    }
+    }*/
 
 
 
@@ -195,7 +201,7 @@ public class NavigationDrawerFragment extends Fragment implements InformationAda
             gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener(){
                 @Override
                 public boolean onSingleTapUp(MotionEvent e) {
-                    return super.onSingleTapUp(e);
+                    return true;
                 }
 
                 @Override

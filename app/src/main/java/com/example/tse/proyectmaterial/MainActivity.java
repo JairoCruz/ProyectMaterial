@@ -9,6 +9,9 @@ import android.os.Bundle;
 import com.example.tse.proyectmaterial.extras.SortListener;
 import com.example.tse.proyectmaterial.fragment.FragmentSearch;
 import com.example.tse.proyectmaterial.fragment.NavigationDrawerFragment;
+import com.example.tse.proyectmaterial.fragment.Tab1;
+import com.example.tse.proyectmaterial.fragment.Tab2;
+import com.example.tse.proyectmaterial.fragment.Tab3;
 import com.example.tse.proyectmaterial.logging.L;
 import com.example.tse.proyectmaterial.services.MyService;
 import com.example.tse.proyectmaterial.tabs.SlidingTabLayout;
@@ -50,6 +53,10 @@ public class MainActivity extends ActionBarActivity{
     private static final int JOB_ID = 100;
     private static final long POLLY_FREQUENCY = 28800000;
     private JobScheduler mJobScheduler;
+
+    public static final int TITULO_1 = 0;
+    public static final int TITULO_2 = 1;
+    public static final int TITULO_3 = 2;
 
 
 
@@ -165,8 +172,22 @@ public class MainActivity extends ActionBarActivity{
 
         @Override
         public Fragment getItem(int position) {
-            MyFragment myFragment = MyFragment.getInstance(position);
-            return myFragment;
+           /* MyFragment myFragment = MyFragment.getInstance(position);
+            return myFragment;*/
+            Fragment fragment = null;
+            switch (position){
+                case TITULO_1:
+                    fragment = Tab1.newInstance("","");
+                    break;
+                case TITULO_2:
+                    fragment = Tab2.newInstance("","");
+                    break;
+                case TITULO_3:
+                    fragment = Tab3.newInstance("","");
+            }
+            return fragment;
+
+
 
         }
 
@@ -208,5 +229,10 @@ public class MainActivity extends ActionBarActivity{
             }
             return layout;
         }
+    }
+
+    // con este codigo al momento de seleccionar algo en el drawer me coloca en la tab conespondiente
+    public void onDrawerItemClicked(int index){
+        mPager.setCurrentItem(index);
     }
 }
